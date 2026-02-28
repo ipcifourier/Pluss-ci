@@ -258,8 +258,8 @@
                 
                 {{-- IMAGE --}}
                 <div class="h-40 bg-gray-200 overflow-hidden relative">
-                    @if($gtt->image_path)
-                        <img src="{{ asset('storage/' . $gtt->image_path) }}" 
+                    @if($gtt->cover_image)
+                        <img src="{{ asset('storage/' . $gtt->cover_image) }}" 
                              alt="{{ $gtt->name }}" 
                              class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                     @else

@@ -340,6 +340,8 @@
                     Plateforme Une Seule Santé Côte d'Ivoire. <br>
                     Ensemble pour une santé globale.
                 </p>
+                <p class="text-gray-500 text-sm">Tél: +225 27 22 20 13 52</p>
+                <p class="text-gray-500 text-sm">Email: secretariat@pluss.ci</p>
                 <div class="flex space-x-4">
                     {{-- Facebook --}}
                     <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-orange transition group">
@@ -370,7 +372,9 @@
                     <li><a href="#" class="hover:text-brand-orange transition flex items-center gap-2"><span class="text-brand-orange">›</span> Ministère de la Santé</a></li>
                     <li><a href="#" class="hover:text-brand-orange transition flex items-center gap-2"><span class="text-brand-orange">›</span> Ressources Animales</a></li>
                     <li><a href="#" class="hover:text-brand-orange transition flex items-center gap-2"><span class="text-brand-orange">›</span> Environnement</a></li>
-                    <li><a href="#" class="hover:text-brand-orange transition flex items-center gap-2"><span class="text-brand-orange">›</span> OMS / FAO / OIE</a></li>
+                    <li><a href="#" class="hover:text-brand-orange transition flex items-center gap-2"><span class="text-brand-orange">›</span> OMS</a></li>
+                    <li><a href="#" class="hover:text-brand-orange transition flex items-center gap-2"><span class="text-brand-orange">›</span> FAO</a></li>
+                    <li><a href="#" class="hover:text-brand-orange transition flex items-center gap-2"><span class="text-brand-orange">›</span>OIE</a></li>
                 </ul>
             </div>
 

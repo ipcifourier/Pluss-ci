@@ -1,154 +1,177 @@
 <x-layout>
-    {{--
-        =============================================
-        NOUVEAU BAND EAU D'EN-TÊTE (Style show.blade.php)
-        =============================================
-        J'utilise ici 'bg-blue-900' pour le bleu foncé.
-        Si vous avez une couleur personnalisée dans tailwind.config.js (ex: 'bg-brand-blue'), remplacez-la.
-    --}}
-    <div class="bg-blue-900 py-16 text-white">
-        <div class="container mx-auto px-4 relative">
-            {{-- Petit badge au dessus du titre --}}
-            <span class="inline-block bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded uppercase mb-4 tracking-wider">
-                Actualités & Activités
-            </span>
-            {{-- Grand Titre --}}
-            <h1 class="text-4xl md:text-5xl font-extrabold leading-tight">
-                Toutes nos publications
-            </h1>
-            {{-- Sous-titre --}}
-            <p class="text-blue-200 mt-4 text-lg max-w-2xl">
-                Restez informé de toutes les actions menées par l'organisation PLUSS.CI.
+    {{-- BANNIÈRE (style Centre de Documentation) --}}
+    <section class="bg-brand-green text-white pt-12 pb-16">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold mb-3">Actualités & Publications</h1>
+            <p class="opacity-90 text-lg max-w-2xl mx-auto mb-8">
+                Restez informé de toutes les actions et publications de la plateforme Une Seule Santé.
             </p>
+
+            {{-- Barre de recherche --}}
+            <form action="{{ route('articles.index') }}" method="GET" class="relative max-w-2xl mx-auto flex">
+                @if(request('year')) <input type="hidden" name="year" value="{{ request('year') }}"> @endif
+                @if(request('month')) <input type="hidden" name="month" value="{{ request('month') }}"> @endif
+                <div class="relative flex-1">
+                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/>
+                        </svg>
+                    </div>
+                    <input type="text" name="search" value="{{ request('search') }}"
+                        placeholder="Rechercher un article, une publication…"
+                        class="w-full pl-12 pr-4 py-4 text-gray-800 bg-white rounded-l-xl text-base focus:outline-none focus:ring-2 focus:ring-brand-orange">
+                </div>
+                <button type="submit"
+                    class="px-6 py-4 bg-brand-orange hover:bg-orange-600 text-white font-bold text-sm rounded-r-xl transition whitespace-nowrap">
+                    Rechercher
+                </button>
+            </form>
         </div>
-    </div>
+    </section>
 
-    {{-- =============================================
-         SECTION CONTENU PRINCIPAL AVEC SIDEBAR
-         ============================================= --}}
-    <div class="py-12 bg-gray-50 min-h-screen">
+    <section class="py-10 bg-gray-50 min-h-screen">
         <div class="container mx-auto px-4">
-            <div class="flex flex-col lg:flex-row gap-8">
 
-                {{-- ================= SIDEBAR (FILTRES) ================= --}}
-                <aside class="w-full lg:w-1/4 lg:sticky lg:top-24 self-start">
-                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                        <h3 class="text-lg font-bold text-gray-800 mb-6 flex items-center gap-2">
-                            <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
-                            Filtrer les archives
-                        </h3>
+            {{-- BARRE DE FILTRES --}}
+            <div class="max-w-7xl mx-auto mb-8">
+                <form action="{{ route('articles.index') }}" method="GET"
+                    class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
 
-                        <form action="{{ route('articles.index') }}" method="GET" class="space-y-5">
-                            {{-- Filtre Année --}}
-                            <div>
-                                <label for="year" class="block text-sm font-semibold text-gray-700 mb-2">Année</label>
-                                <select name="year" id="year" class="w-full border-gray-300 rounded-lg shadow-sm focus:border-orange-500 focus:ring-orange-500 py-2.5">
-                                    <option value="">Toutes les années</option>
-                                    @foreach($years as $year)
-                                        <option value="{{ $year }}" {{ request('year') == $year ? 'selected' : '' }}>
-                                            {{ $year }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
+                    @if(request('search'))
+                        <div class="mb-4 flex items-center gap-2">
+                            <span class="text-sm text-gray-500">Recherche :</span>
+                            <span class="inline-flex items-center gap-1.5 bg-brand-green/10 text-brand-green text-sm font-semibold px-3 py-1 rounded-full">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"/></svg>
+                                "{{ request('search') }}"
+                            </span>
+                        </div>
+                        <input type="hidden" name="search" value="{{ request('search') }}">
+                    @endif
 
-                            {{-- Filtre Mois --}}
-                            <div>
-                                <label for="month" class="block text-sm font-semibold text-gray-700 mb-2">Mois</label>
-                                <select name="month" id="month" class="w-full border-gray-300 rounded-lg shadow-sm focus:border-orange-500 focus:ring-orange-500 py-2.5">
-                                    <option value="">Tous les mois</option>
-                                    @foreach(range(1, 12) as $m)
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
+                        {{-- Filtre Année --}}
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Année</label>
+                            <select name="year"
+                                class="w-full py-2 px-3 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:ring-brand-green focus:border-brand-green"
+                                onchange="this.form.submit()">
+                                <option value="">Toutes les années</option>
+                                @foreach($years as $year)
+                                    <option value="{{ $year }}" {{ request('year') == $year ? 'selected' : '' }}>{{ $year }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        {{-- Filtre Mois --}}
+                        <div>
+                            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Mois</label>
+                            <select name="month"
+                                class="w-full py-2 px-3 bg-gray-50 border border-gray-300 rounded-lg text-sm focus:ring-brand-green focus:border-brand-green"
+                                onchange="this.form.submit()">
+                                <option value="">Tous les mois</option>
+                                @foreach(range(1, 12) as $m)
                                     <option value="{{ $m }}" {{ request('month') == $m ? 'selected' : '' }}>
                                         {{ \Carbon\Carbon::createFromDate(null, $m, 1)->locale('fr')->isoFormat('MMMM') }}
                                     </option>
-                                    @endforeach
-                                </select>
-                            </div>
+                                @endforeach
+                            </select>
+                        </div>
 
-                            {{-- Bouton Filtrer --}}
-                            <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-lg transition-colors duration-300 shadow-md hover:shadow-lg flex justify-center items-center gap-2">
-                                Filtrer les résultats
+                        {{-- Boutons reset --}}
+                        <div class="flex gap-2">
+                            <button type="submit"
+                                class="flex-1 bg-brand-green hover:bg-green-700 text-white font-bold py-2 rounded-lg transition text-sm">
+                                Filtrer
                             </button>
-
-                            {{-- Lien Reset si un filtre est actif --}}
-                            @if(request()->has('year') || request()->has('month'))
-                                <a href="{{ route('articles.index') }}" class="block text-center text-sm text-gray-500 hover:text-orange-500 underline mt-2">
-                                    Réinitialiser les filtres
+                            @if(request()->hasAny(['year', 'month', 'search']))
+                                <a href="{{ route('articles.index') }}"
+                                    class="flex items-center justify-center px-3 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-lg text-sm font-medium transition" title="Réinitialiser">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                    </svg>
                                 </a>
                             @endif
-                        </form>
+                        </div>
                     </div>
-                </aside>
+                </form>
+            </div>
 
-                {{-- ================= GRILLE DES ARTICLES ================= --}}
-                <main class="w-full lg:w-3/4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        @forelse($articles as $article)
-                            <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 overflow-hidden group flex flex-col h-full">
-                                
-                                {{-- GESTION DE L'IMAGE (Correction des images cassées) --}}
-                                <a href="{{ route('articles.show', $article->slug) }}" class="block relative h-52 overflow-hidden bg-gray-100">
-                                    {{-- Badge Date en superposition --}}
-                                    <div class="absolute top-4 right-4 bg-orange-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg z-10 shadow-sm">
-                                        {{ $article->created_at->format('d M Y') }}
-                                    </div>
+            {{-- Compteur --}}
+            <div class="max-w-7xl mx-auto mb-5">
+                <p class="text-sm text-gray-500">
+                    Affichage de <span class="font-semibold text-gray-700">{{ $articles->firstItem() ?? 0 }}</span>
+                    à <span class="font-semibold text-gray-700">{{ $articles->lastItem() ?? 0 }}</span>
+                    sur <span class="font-semibold text-gray-700">{{ $articles->total() }}</span> article(s)
+                </p>
+            </div>
 
-                                    @if($article->image_path && Storage::disk('public')->exists($article->image_path))
-                                        {{-- Si l'image existe --}}
-                                        <img src="{{ asset('storage/' . $article->image_path) }}" 
-                                             alt="{{ $article->title }}" 
-                                             class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                                    @else
-                                        {{-- Fallback élégant si l'image n'existe pas --}}
-                                        <div class="w-full h-full flex flex-col items-center justify-center bg-blue-50 group-hover:bg-blue-100 transition-colors">
-                                            {{-- Icône générique --}}
-                                            <svg class="w-12 h-12 text-blue-200 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                            <span class="text-blue-300 text-sm font-medium">PLUSS.CI</span>
-                                        </div>
-                                    @endif
-                                </a>
+            {{-- GRILLE DES ARTICLES --}}
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    @forelse($articles as $article)
+                        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 overflow-hidden group flex flex-col h-full">
 
-                                {{-- Contenu de la carte --}}
-                                <div class="p-6 flex flex-col flex-grow">
-                                    {{-- Catégorie si disponible --}}
-                                    @if($article->category)
-                                        <span class="text-xs font-bold text-blue-600 uppercase tracking-wider mb-2">{{ $article->category }}</span>
-                                    @endif
-
-                                    {{-- Titre --}}
-                                    <h3 class="text-xl font-bold text-gray-900 mb-3 leading-tight line-clamp-2 group-hover:text-orange-500 transition-colors">
-                                        <a href="{{ route('articles.show', $article->slug) }}">
-                                            {{ $article->title }}
-                                        </a>
-                                    </h3>
-
-                                    {{-- Extrait (Résumé ou début du contenu) --}}
-                                    <p class="text-gray-600 text-sm line-clamp-3 mb-6 flex-grow">
-                                        {{ $article->summary ?? Str::limit(strip_tags($article->content), 120) }}
-                                    </p>
-
-                                    {{-- Lien Lire la suite --}}
-                                    <a href="{{ route('articles.show', $article->slug) }}" class="inline-flex items-center text-orange-500 font-bold hover:text-orange-600 text-sm transition-all group-hover:gap-2">
-                                        Lire la suite
-                                        <svg class="w-4 h-4 ml-1 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                                    </a>
+                            <a href="{{ route('articles.show', $article->slug) }}"
+                                class="block relative h-52 overflow-hidden bg-gray-100">
+                                <div class="absolute top-4 right-4 bg-brand-orange text-white text-xs font-bold px-3 py-1.5 rounded-lg z-10 shadow-sm">
+                                    {{ $article->published_at ? \Carbon\Carbon::parse($article->published_at)->format('d M Y') : $article->created_at->format('d M Y') }}
                                 </div>
-                            </div>
-                        @empty
-                            <div class="col-span-full bg-white p-12 text-center rounded-xl shadow-sm border border-gray-100">
-                                <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
-                                <h3 class="text-xl font-medium text-gray-900">Aucun article trouvé</h3>
-                                <p class="text-gray-500 mt-2">Essayez de modifier vos filtres de recherche.</p>
-                            </div>
-                        @endforelse
-                    </div>
 
-                    {{-- Pagination --}}
-                    <div class="mt-12">
-                        {{ $articles->links() }}
-                    </div>
-                </main>
+                                @if($article->image_path && Storage::disk('public')->exists($article->image_path))
+                                    <img src="{{ asset('images/' . $article->image_path) }}"
+                                        alt="{{ $article->title }}"
+                                        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                                @else
+                                    <div class="w-full h-full flex flex-col items-center justify-center bg-green-50 group-hover:bg-green-100 transition-colors">
+                                        <svg class="w-12 h-12 text-brand-green/30 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+                                        </svg>
+                                        <span class="text-brand-green/40 text-sm font-medium">PLUSS.CI</span>
+                                    </div>
+                                @endif
+                            </a>
+
+                            <div class="p-5 flex flex-col flex-grow">
+                                @if($article->category)
+                                    <span class="text-xs font-bold text-brand-green uppercase tracking-wider mb-2">{{ $article->category }}</span>
+                                @endif
+
+                                <h3 class="text-base font-bold text-gray-900 mb-3 leading-snug line-clamp-2 group-hover:text-brand-orange transition-colors">
+                                    <a href="{{ route('articles.show', $article->slug) }}">{{ $article->title }}</a>
+                                </h3>
+
+                                <p class="text-gray-500 text-sm line-clamp-3 mb-4 flex-grow">
+                                    {{ $article->summary ?? Str::limit(strip_tags($article->content), 120) }}
+                                </p>
+
+                                <a href="{{ route('articles.show', $article->slug) }}"
+                                    class="inline-flex items-center text-brand-orange font-bold hover:text-orange-600 text-sm transition-all">
+                                    Lire la suite
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="col-span-full bg-white p-12 text-center rounded-xl shadow-sm border border-gray-100">
+                            <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+                            </svg>
+                            <h3 class="text-xl font-medium text-gray-900">Aucun article trouvé</h3>
+                            <p class="text-gray-500 mt-2">Essayez de modifier vos filtres de recherche.</p>
+                            <a href="{{ route('articles.index') }}" class="mt-4 inline-block text-brand-green hover:underline text-sm font-semibold">
+                                Voir tous les articles
+                            </a>
+                        </div>
+                    @endforelse
+                </div>
+
+                {{-- Pagination --}}
+                <div class="mt-10">
+                    {{ $articles->links() }}
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 </x-layout>

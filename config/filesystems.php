@@ -40,8 +40,8 @@ return [
 
         'public' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
+            'root' => public_path('images'),
+            'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/images',
             'visibility' => 'public',
             'throw' => false,
             'report' => false,
@@ -74,7 +74,8 @@ return [
     */
 
     'links' => [
-        public_path('storage') => storage_path('app/public'),
+        // Les liens symboliques ne sont plus nécessaires depuis que les uploads vont directement dans public/images
+        // public_path('storage') => storage_path('app/public'),
     ],
 
 ];

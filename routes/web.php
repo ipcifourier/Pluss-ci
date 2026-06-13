@@ -128,6 +128,9 @@ Route::post('/contact', [PublicController::class, 'submitContact'])->name('conta
 // ...
 
 // ... La route pour les gtt ...
+// Route spécifique pour la page "Généralités sur les GTT" (doit être AVANT la route dynamique)
+Route::get('/gtt/generalites-sur-les-gtt', [GttController::class, 'generalites'])->name('gtts.generalites');
+
 //Route::get('/gtt/{slug}', [GttController::class, 'show'])->name('gtt.show');
 Route::get('/gtt/{gtt:slug}', [GttController::class, 'show'])->name('gtt.show');
 Route::get('/gtt/{gtt:slug}/actualites', [ArticleGttController::class, 'showGttArticles'])->name('gtt.articles');
@@ -145,12 +148,25 @@ Route::get('/gtt/{gtt:slug}', [GttController::class, 'show'])->name('gtts.show')
 Route::get('/documents', [DocumentController::class, 'index'])
     ->name('documents.index');
 
+// Suggestions de recherche (autocomplete)
+Route::get('/documents/suggestions', [DocumentController::class, 'suggestions'])
+    ->name('documents.suggestions');
+
 // Route pour télécharger un fichier (et compter le téléchargement)
 Route::get('/documents/{document}/download', [DocumentController::class, 'download'])
     ->name('documents.download');
 
+// Route pour prévisualiser un fichier dans le navigateur
+Route::get('/documents/{document}/preview', [DocumentController::class, 'preview'])
+    ->name('documents.preview');
+
 //Route pour la barre de recherche
 Route::get('/recherche', [SearchController::class, 'index'])->name('search');
+
+// Espace Chercheurs
+Route::get('/espace-chercheurs', function () {
+    return view('chercheur');
+})->name('espace.chercheurs');
 
 // Route pour les pages dynamiques
 Route::get('/page/{slug}', [PageController::class, 'show'])->name('pages.show');

@@ -26,10 +26,10 @@ class PublicController extends Controller
     // ==========================================
     public function home()
     {
-        // 1. Récupérer les 3 derniers articles publiés
+        // 1. Récupérer les 6 derniers articles publiés
         $latestArticles = Article::where('is_published', true)
             ->orderBy('published_at', 'desc')
-            ->take(3)
+            ->take(6)
             ->get();
 
         // 2. Récupérer les GTT actifs (4 au hasard)
@@ -94,9 +94,18 @@ class PublicController extends Controller
     {
         $query = Article::where('is_published', true);
 
+        // Filtre par mot-clé
+        if ($request->filled('search')) {
+            $q = $request->search;
+            $query->where(function ($sub) use ($q) {
+                $sub->where('title', 'like', '%' . $q . '%')
+                    ->orWhere('summary', 'like', '%' . $q . '%');
+            });
+        }
+
         // Filtre par ANNEE
         if ($request->filled('year')) {
-            $query->whereYear('published_at', $request->year); // Préférez published_at à created_at pour les articles
+            $query->whereYear('published_at', $request->year);
         }
 
         // Filtre par MOIS
@@ -104,8 +113,7 @@ class PublicController extends Controller
             $query->whereMonth('published_at', $request->month);
         }
 
-        // Pagination (9 par page)
-        $articles = $query->orderBy('published_at', 'desc')->paginate(4);
+        $articles = $query->orderBy('published_at', 'desc')->paginate(6)->withQueryString();
 
         // Années disponibles pour le filtre
         $years = Article::selectRaw('YEAR(published_at) as year')
@@ -153,6 +161,11 @@ class PublicController extends Controller
         $page = Page::where('slug', $slug)
             ->where('is_published', true)
             ->firstOrFail();
+
+        // Vue dédiée pour les Généralités sur les GTT
+        if ($slug === 'generalites-sur-les-gtt') {
+            return view('gtts.generalite', compact('page'));
+        }
 
         return view('page', compact('page'));
     }

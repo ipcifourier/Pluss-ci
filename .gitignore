@@ -22,3 +22,8 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Scripts de déploiement/maintenance sensibles - ne jamais commiter
+/public/deploy-init.php
+/public/maintenance.php
+/public/images/livewire-tmp/

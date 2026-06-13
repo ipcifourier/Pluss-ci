@@ -16,6 +16,14 @@ class GttController extends Controller
     }
 
     /**
+     * Page statique : Généralités sur les GTT
+     */
+    public function generalites()
+    {
+        return view('gtts.generalite');
+    }
+
+    /**
      * Affiche un GTT spécifique.
      */
     public function show(Gtt $gtt)

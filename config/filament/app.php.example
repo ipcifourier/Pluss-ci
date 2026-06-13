@@ -1,0 +1,257 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Filament - Configuration pour Production
+|--------------------------------------------------------------------------
+|
+| Ce fichier contient les configurations recommandées pour Filament
+| en environnement de production sur serveur mutualisé.
+|
+| À placer dans: config/filament/app.php
+| (Ce fichier est généré automatiquement par Filament, voir les valeurs ci-dessous)
+|
+*/
+
+return [
+    'brand' => env('APP_NAME', 'Laravel'),
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Panel Domain
+    |--------------------------------------------------------------------------
+    */
+    'domain' => env('FILAMENT_DOMAIN', null),
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Path du Panel Admin
+    |--------------------------------------------------------------------------
+    | Défaut: /admin
+    */
+    'path' => env('FILAMENT_PATH', 'admin'),
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Favicon (optionnel)
+    |--------------------------------------------------------------------------
+    */
+    'favicon_url' => null,
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Favicon URL
+    |--------------------------------------------------------------------------
+    */
+    'favicon' => null,
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Dark Mode (Mode Sombre)
+    |--------------------------------------------------------------------------
+    | false = Désactiver le mode sombre (recommandé pour perf)
+    | true = Activer le mode sombre
+    | 'system' = Basé sur les préférences utilisateur
+    */
+    'dark_mode' => false,
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Colors Configuration
+    |--------------------------------------------------------------------------
+    | Personnaliser les couleurs du panel
+    */
+    'colors' => [
+        'primary' => \Filament\Support\Colors\Color::Blue,
+    ],
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Font (Police)
+    |--------------------------------------------------------------------------
+    | Utiliser les polices système pour meilleure performance
+    */
+    'font' => null,
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Font Providers
+    |--------------------------------------------------------------------------
+    */
+    'font_providers' => [],
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Sidebarbar Configuration
+    |--------------------------------------------------------------------------
+    */
+    'sidebar' => [
+        'is_collapsible_on_desktop' => false,  // Garder la sidebar ouverte sur desktop
+        'groups_label' => 'Groupes',
+        'width' => '20rem',
+        'collapsed_width' => '5.5rem',
+    ],
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Topbar (Barre Supérieure)
+    |--------------------------------------------------------------------------
+    | true = Afficher, false = Masquer les éléments de la topbar
+    */
+    'topbar' => [
+        'is_sticky' => true,  // Sticky topbar
+    ],
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Favicon
+    |--------------------------------------------------------------------------
+    */
+    'unsaved_changes_alerts' => true,
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Authentification Guard
+    |--------------------------------------------------------------------------
+    | Garder 'web' pour la majorité des cas
+    */
+    'auth' => [
+        'guard' => env('FILAMENT_GUARD', 'web'),
+        'pages' => [
+            'login' => \Filament\Http\Livewire\Auth\Login::class,
+        ],
+    ],
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Pages
+    |--------------------------------------------------------------------------
+    | Pages personnalisées du panel
+    */
+    'pages' => [
+        // Optionnel: pages custom
+    ],
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Resources
+    |--------------------------------------------------------------------------
+    | Namespace pour les ressources Filament
+    */
+    'resources' => [
+        'namespace' => 'App\\Filament\\Resources',
+    ],
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Widgets
+    |--------------------------------------------------------------------------
+    | Namespace pour les widgets
+    */
+    'widgets' => [
+        'namespace' => 'App\\Filament\\Widgets',
+    ],
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Notifications
+    |--------------------------------------------------------------------------
+    | Utiliser la base de données pour les notifications
+    | IMPORTANT pour serveur mutualisé: éviter broadcast
+    */
+    'notifications' => [
+        'enabled' => true,
+        'driver' => 'database',  // Au lieu de 'broadcast'
+        'position' => 'top-right',
+    ],
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Database Notifications
+    |--------------------------------------------------------------------------
+    | Si utilisation des notifications en BD
+    */
+    'database_notifications' => [
+        'enabled' => true,
+        'polling_interval' => '5s',
+    ],
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Broadcasting
+    |--------------------------------------------------------------------------
+    | DÉSACTIVER en production sur serveur mutualisé
+    | (Pas d'accès WebSocket généralement)
+    */
+    'broadcasting' => [
+        'enabled' => false,  // ⚠️ DÉSACTIVER POUR SERVEUR MUTUALISÉ
+    ],
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Modal Animation Duration
+    |--------------------------------------------------------------------------
+    | Durée des animations en ms (réduire pour serveur lent)
+    */
+    'modal' => [
+        'actions' => [
+            'alignment' => 'left',
+        ],
+    ],
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Pagination
+    |--------------------------------------------------------------------------
+    | Configurer la pagination pour performance
+    */
+    'pagination' => [
+        'page_options' => [10, 25, 50],  // Options par défaut réduites
+        'default' => 10,  # Réduire le défaut
+    ],
+    
+    /*
+    |--------------------------------------------------------------------------
+    | File Upload
+    |--------------------------------------------------------------------------
+    | Configurations des uploads
+    */
+    'assets_disk' => env('FILESYSTEM_DISK', 'local'),
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Layout
+    |--------------------------------------------------------------------------
+    */
+    'layout' => [
+        'actions' => [
+            'modal' => [
+                'actions' => [
+                    'alignment' => 'left',
+                ],
+            ],
+        ],
+        'tables' => [
+            'pagination' => [
+                'records_per_page_select_options' => [10, 25, 50],
+            ],
+        ],
+    ],
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Performance Optimizations
+    |--------------------------------------------------------------------------
+    | Optimisations pour serveur mutualisé
+    */
+    'cache_dashboard_components' => true,  // ✓ Activer le cache
+    'cache_table_filters' => true,          # ✓ Cache filters
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Timezone
+    |--------------------------------------------------------------------------
+    */
+    'timezone' => env('APP_TIMEZONE', 'UTC'),
+    
+];
